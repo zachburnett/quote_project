@@ -38,7 +38,7 @@
         
             {%for x in quotes%}
             <tr>
-           <td> {{x.quoted_by}}:{{x.quote}}&nbsp;<a href="/quote/show/{{x.quoter.id}}">posted by{{x.quoter.alias}}</a>&nbsp;<a href="/quote/add_quote/{{x.id}}/{{request.session.user_id}}"><button>add to my list</button></td>
+           <td> {{x.quoted_by}}:{{x.quote}}&nbsp;<a href="/quote/add_quote/{{x.id}}/{{request.session.user_id}}"><button>add to my list</button></td>
             </tr>
             {%endfor%}
        
