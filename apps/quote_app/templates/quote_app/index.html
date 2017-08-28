@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 50%;
+        }
+
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+
+<body>
+    welcome {{request.session.user_alias}}&nbsp;|&nbsp;<a href="/quote/logout">logout</a> 
+    <br><br>
+    <div style='display: block; boarder-style: solid, black; '>
+    
+        <table> 
+            <tr>
+                <th>quotable quotes</th>
+            </tr>
+        
+            {%for x in quotes%}
+            <tr>
+           <td> {{x.quoted_by}}:{{x.quote}}&nbsp;<a href="/quote/show/{{x.quoter.id}}">posted by{{x.quoter.alias}}</a>&nbsp;<a href="/quote/add_quote/{{x.id}}/{{request.session.user_id}}"><button>add to my list</button></td>
+            </tr>
+            {%endfor%}
+       
+        </table>
+        <br><br><br>
+    </div>
+    <div style='display: inline-block; boarder-style: solid, black; '>
+        
+        <table>
+            <tr>
+                <th>favorite quotes</th>
+            </tr>
+            {%if adds%}
+            {%for x in adds%}
+            <tr>
+                <td>{{x.quoted_by}}:{{x.quote}}<a href="/quote/remove_quote/{{x.id}}/{{request.session.user_id}}"><button>remove from my list</button></td>
+            </tr>
+            {%endfor%}
+            {%endif%}
+        </table>
+    </div>
+
+
+
+    <div style='float: center; display: inline-block; boarder: solid,color: black; '>
+        <h1>enter a quote!</h1>
+        {%if messages%}
+			{%for message in messages%}
+				{%if message.tags == 'error'%}
+					<p style="color: red">{{message}}</p>
+				{%endif%}
+			{%endfor%}
+		{%endif%}
+
+        <form action="/quote/submit_quote" method="post">
+            {% csrf_token %}
+            <p><strong>quoted by:</strong><input type="text" name="quoted_by"><br>
+                <p><strong>quote:</strong></p><textarea name="quote" id="" cols="30" rows="10"></textarea><br>
+                <input type="submit" value="submit">
+        </form>
+    </div>
+
+
+</body>
+
+</html>
